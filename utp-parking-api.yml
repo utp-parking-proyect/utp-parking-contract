@@ -1,0 +1,85 @@
+openapi: 3.0.3
+info:
+  title: API UTP+ Parking V1
+  description: |-
+    Permite gestionar todo lo relacionado con el flujo de estacionamiento UTP,
+    tanto como registro de solicitudes de vehículos como visualización de espacios
+    disponible en tiempo real.
+  version: 0.0.1-SNAPSHOT
+servers:
+  - url: /utp/parking/api/v1
+tags:
+  - name: auth
+    description: Authentication controller
+paths:
+  /oauth2/login:
+    post:
+      operationId: loginUser
+      summary: Permite al usuario ingresar al sistema
+      description: |-
+        ### Acerca de la funcionalidad expuesta
+        Este endpoint permite ingresar al sistema, usando JWT.
+
+        ### Data de Prueba
+        No aplica.
+
+        ### Precondiciones para el consumo de esta versión del endpoint
+        No aplica.
+
+        ### Path Parameters
+        No aplica.
+
+        ### Usos válidos de Query Parameters
+        No aplica.
+
+        ### Variantes válidas del Payload (Cuerpo del mensaje)
+        No aplica.
+
+        ### Lista de Valores usadas en esta versión de la endpoint
+        No aplica.
+
+        ### Códigos de error usados en esta versión deL endpoint
+        |  HTTP Status | Descripción |
+        |-------------|-------------|
+        | 400 | Los datos proporcionados no son válidos.
+        | 404 | No se encontró el recurso solicitado.
+        | 409 | Los datos proporcionados no son válidos.          
+        | 500 | Ocurrió un error inesperado.
+        | 503 | El servicio no se encuentra disponible
+        | 504 | Se superó el tiempo de respuesta interna.
+      tags:
+        - auth
+      requestBody:
+        description: Credenciales del usuario.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: Login satisfactorio.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Codigo del usuario registrado en la UTP
+          example: 'U12345678'
+        password:
+          type: string
+          description: Contraseña del usuario registrado en la UTP
+          example: '123@abc'
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Token temporal del usuario
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
